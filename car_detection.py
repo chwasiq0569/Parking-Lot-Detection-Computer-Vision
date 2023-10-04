@@ -15,6 +15,15 @@ cap = cv2.VideoCapture("./easy1.mp4")
 
 count = 0
 
+polylines = []
+area_names = []
+try:
+    with open("polylines", "rb") as f:
+        data = pickle.load(f)
+        polylines, area_names = data['polylines'], data['area_names']
+except:
+    polylines = []
+    area_names = []
 
 while True:
     ret, frame = cap.read()
@@ -48,6 +57,9 @@ while True:
         if 'car' in c:
             cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 255, 255), 2)
 
+    for i, polyline in enumerate(polylines):
+        cv2.polylines(frame, [polyline], True, (0, 0, 255), 2)
+        cvzone.putTextRect(frame, f'{area_names[i]}', tuple(polyline[0]), 1, 1)
     cv2.imshow('FRAME', frame)
     key = cv2.waitKey(1) & 0xFF
 
