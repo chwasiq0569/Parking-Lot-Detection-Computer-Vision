@@ -63,6 +63,7 @@ while True:
     frame = cv2.resize(frame, (1020, 500))
     for i, polyline in enumerate(polylines):
         cv2.polylines(frame, [polyline], True, (0, 0, 255), 2)
+        cvzone.putTextRect(frame, f'{area_names[i]}', tuple(polyline[0]), 1, 1)
 
     cv2.imshow('FRAME', frame)
     cv2.setMouseCallback('FRAME', draw)
